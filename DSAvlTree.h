@@ -8,8 +8,7 @@
 #define INC_22S_FINAL_PROJ_DSAVLTREE_H
 
 template <typename type>
-class DSNode {
-public:
+struct DSNode {
 int height = 0;
 DSNode* left = nullptr;
 DSNode* right = nullptr;
@@ -25,6 +24,10 @@ DSNode(type input, DSNode<type>* l, DSNode<type>* r, int h) {
 
 DSNode(type d) {
     data = d;
+    left = nullptr;
+    right = nullptr;
+    above = nullptr;
+    height = 0;
 }
 
 
@@ -36,7 +39,7 @@ class DSTree {
 
 public:
     DSNode<type>* head;
-    int getHeight(DSNode<type>* input) {
+    int height(DSNode<type>* input) {
         if(input == nullptr)
             return -1;
         return input->height;
@@ -45,7 +48,7 @@ public:
         if(input == nullptr) {
             return 0;
         }
-        return (getHeight(input->left) - getHeight(input->right));
+        return (height(input->left) - height(input->right));
     }
 
     DSNode<type>* findValue(type input, DSNode<type>* head) {
@@ -72,7 +75,11 @@ public:
         //rightChild->left = input;
 
     }
-    void insert(type x, DSNode<type>* top) {
+    void insert(type x) {
+        insert(x, head);
+
+    }
+    void insert(type& x, DSNode<type> * & top) {
         if(top == nullptr)
             top = new DSNode<type>(x);
         else if (x < top->data)
@@ -81,8 +88,9 @@ public:
             insert(x, top->right);
         else
         {
-            //doo stuff for duplicate
+            //do stuff for duplicate
         }
+        balance(top);
 
     }
 
@@ -90,17 +98,17 @@ public:
         return (a > b) ? a : b;
     }
 
-    void rotateWithLeftChild(DSNode<type>* k2) {
+    void rotateWithLeftChild(DSNode<type>* & k2) {
         DSNode<type>* k1 = k2->left;
         k2->left = k1->right;
         k1->right = k2;
         k2->height = max(height(k2->left), height(k2->right)) + 1;
-        k1->height = max(hieght(k1->left), k2->height) +1;
+        k1->height = max(height(k1->left), k2->height) +1;
         k2 = k1;
-        //not done yet
+        //not done yet???
 
     }
-    void rotateWithRightChild(DSNode<type>* k2) {
+    void rotateWithRightChild(DSNode<type>* & k2) {
         DSNode<type>* k1 = k2->right;
         k2->right = k1->left;
         k1->left = k2;
@@ -109,27 +117,38 @@ public:
         k2 = k1;
     }
 
-    void doubleWithLeftChild( DSNode<type> *  k3 )
+    void doubleWithLeftChild( DSNode<type> * & k3 )
      {
          rotateWithRightChild( k3->left );
          rotateWithLeftChild( k3 );
      }
 
-    void balance(DSNode<type>* t) {
-        if(getBalance(t) > 1) {
-            if(height(t->left->left >= height(t->left->right)))
-                rotateWithLeftChild(t);
-            else
-                doubleWithLeftChild(t);
+     void doubleWithRightChild(DSNode<type> * & k3) {
+         rotateWithLeftChild( k3->right );
+         rotateWithRightChild( k3 );
+    }
 
+    void balance(DSNode<type>* & t) {
+        if(t == nullptr) {
+            return;
         }
-        else if(getBalance(t) < -1) {
-            if(height(t->right->right) >= height(t->right->right))
+        if( height( t->left ) - height( t->right ) > 1) {
+            if(height(t->left->left) >= height(t->left->right)){
+                rotateWithLeftChild(t);
+            }
+            else {
+                doubleWithLeftChild(t);
+            }
+        }
+        else if(height( t->right ) - height( t->left ) > 1) {
+            if(height(t->right->right) >= height(t->right->left)) {
                 rotateWithRightChild(t);
-            else
+            }
+            else {
                 doubleWithRightChild(t);
+            }
         }
-        t->height = max(t->right, t->left);
+        t->height = max(height(t->left), height(t->right)) + 1;
     }
 
 

@@ -12,12 +12,26 @@ int main() {
     DSNode<int> node5(3);
 
     DSTree<int> myTree;
-    node1.left = &node2;
-    node2.left = &node3;
-    node3.left = &node4;
+    myTree.head = &node1;
+    int x = 3;
+    myTree.insert(x);
+    myTree.insert(2);
+    myTree.insert(4);
+    myTree.insert(5);
+    myTree.insert(6);
+    myTree.insert(7);
+    myTree.insert(8);
+    myTree.insert(12);
+    myTree.insert(62);
+    myTree.insert(3);
+    myTree.insert(5);
+    myTree.insert(9);
+    myTree.insert(6);
 
-    node5 = *myTree.findValue(5, &node1);
-    std:: cout << node5.data;
+
+
+    //node5 = *myTree.findValue(5, &node1);
+
     std::cout << myTree.getBalance(&node1);
 
 
