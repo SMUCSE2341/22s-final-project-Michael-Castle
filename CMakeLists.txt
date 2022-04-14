@@ -1,6 +1,8 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.16.0)
 project(22s_final_proj)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(22s_final_proj main.cpp catch_setup.cpp parsingData.cpp parsingData.h)
+
+add_executable(22s_final_proj main.cpp catch_setup.cpp DSAvlTree.h parsingData.cpp parsingData.h)
+
