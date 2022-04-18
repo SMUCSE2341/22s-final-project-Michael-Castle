@@ -10,9 +10,10 @@
 
 class Directory{
 public:
-//    void parseData();
+    void parseData();
     void open_dir_using_filesystem(const std::string& directory);
     void open_dir_using_dirent(const std::string& directory);
+    std::string fileToString(const std::string& filename);
 
 };
 

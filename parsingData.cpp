@@ -6,9 +6,11 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include <filesystem>
+#include "fstream"
 
 using namespace std;
 namespace fs = std::__fs::filesystem;
+
 
 void Directory::open_dir_using_dirent(const string& directory) {
     string filepath;
@@ -45,8 +47,11 @@ void Directory::open_dir_using_dirent(const string& directory) {
 void Directory::open_dir_using_filesystem(const string& directory){
     for (const auto & entry : fs::recursive_directory_iterator(directory)){
         if (entry.is_regular_file()) {
-            if (entry.path().extension().string() == ".txt") {
+            if (entry.path().extension().string() == ".json") {
                 string filename = entry.path().c_str();
+
+                parseData();
+
                 std::cout << filename << std::endl;
             }
         }
@@ -55,10 +60,15 @@ void Directory::open_dir_using_filesystem(const string& directory){
 
 
 
-//void Parsing::parseData() {
-//    rapidjson::Document doc;
-//    std::string wholeFile;
-//// input the whole .json into wholeFile
+void Directory::parseData() {
+    rapidjson::Document doc;
+    std::string wholeFile;
+// input the whole .json into wholeFile
 //    doc.Parse();
-//
-//}
+}
+
+std::string Directory::fileToString(const string& filename) {
+    
+
+
+}
