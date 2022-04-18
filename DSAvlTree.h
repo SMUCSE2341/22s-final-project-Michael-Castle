@@ -151,6 +151,18 @@ public:
         t->height = max(height(t->left), height(t->right)) + 1;
     }
 
+    ~DSTree() {
+        recursiveDelete(head);
+    }
+
+    void recursiveDelete(DSNode<type>* input) {
+        if(input != nullptr) {
+            recursiveDelete(input->left);
+            recursiveDelete(input->right);
+            delete input;
+        }
+    }
+
 
 };
 
