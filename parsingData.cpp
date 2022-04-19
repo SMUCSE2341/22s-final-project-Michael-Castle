@@ -67,7 +67,7 @@ void Directory::ParseData(const string& filename) {
     rapidjson::Document d;
     d.ParseStream(filename);
 
-    
+
 
 
 //    file.open(filename);
