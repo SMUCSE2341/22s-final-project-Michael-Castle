@@ -4,9 +4,9 @@
 
 #ifndef INC_22S_FINAL_PROJ_PARSINGDATA_H
 #define INC_22S_FINAL_PROJ_PARSINGDATA_H
+#include "unordered_map"
 #include "wordObject.h"
 #include "iostream"
-#include "unordered_map"
 #include "DSAvlTree.h"
 #include "rapidjson/document.h"
 #include "rapidjson/istreamwrapper.h"

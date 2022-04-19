@@ -1,13 +1,14 @@
 //
 // Created by Michael Castle on 4/10/22.
 //
-#include "porter2_stemmer-master/porter2_stemmer.h"
 #include "parsingData.h"
+#include "porter2_stemmer.h"
 #include <dirent.h>
 #include <sys/stat.h>
 #include <filesystem>
 #include "fstream"
 #include "sstream"
+#include "stemmerGiveUp.h"
 
 using namespace std;
 namespace fs = std::__fs::filesystem;
@@ -83,7 +84,30 @@ void Directory::ParseData(const string& filename) {
         if(stopWords[tmpWord]){
 
         }else{
-            Porter2Stemmer::trim(tmpWord);
+//            char* tmp = new char[tmpWord.size()];
+//            strcpy(tmp,tmpWord.c_str());
+//            int tmpInt = stem(tmp, 0, tmpWord.size())-1;
+//            tmp[tmpInt+1] = '\0';
+//            cout << tmpInt << " ";
+//            cout << tmp << endl;
+
+
+            int i = tmpWord.size()-1;
+            for(int j = 0; j < i+1; j++) {
+                tmpWord[j] = tolower(tmpWord[j]);
+                if(!isalpha(tmpWord[j])) {
+                    tmpWord.resize(j);
+                    break;
+                }
+            }
+            i = tmpWord.size()-1;
+            string tmps = tmpWord;
+
+            char s[i+1];
+            strcpy(s,tmps.c_str());
+            i = stem(s, 0, i);
+            tmpWord.resize(i+1);
+
             cout << tmpWord << endl;
         }
         //else

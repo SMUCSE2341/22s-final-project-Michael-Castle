@@ -1,7 +1,5 @@
 
 #include "parsingData.h"
-#include <iostream>
-#include "wordObject.h"
 using namespace std;
 
 int main() {
