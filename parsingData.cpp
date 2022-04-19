@@ -1,7 +1,7 @@
 //
 // Created by Michael Castle on 4/10/22.
 //
-
+#include "porter2_stemmer-master/porter2_stemmer.h"
 #include "parsingData.h"
 #include <dirent.h>
 #include <sys/stat.h>
@@ -79,13 +79,18 @@ void Directory::ParseData(const string& filename) {
     string textString = text.GetString();
     istringstream textStream(textString);
     string tmpWord;
-    while( textStream >> tmpWord) {
-        //if(word is stopword)
+    while(textStream >> tmpWord) {
+        if(stopWords[tmpWord]){
+
+        }else{
+            Porter2Stemmer::trim(tmpWord);
+            cout << tmpWord << endl;
+        }
         //else
         //trim tail
         //push to tree
     }
-    cout << textString;
+   // cout << textString;
 
 
 
