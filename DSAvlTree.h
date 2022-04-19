@@ -38,7 +38,7 @@ template <typename type>
 class DSTree {
 
 public:
-    DSNode<type>* head;
+    DSNode<type>* head = nullptr;
     int height(DSNode<type>* input) {
         if(input == nullptr)
             return -1;

@@ -1,18 +1,15 @@
 #include "DSAvlTree.h"
 #include "parsingData.h"
 #include <iostream>
+#include "wordObject.h"
 using namespace std;
 
 int main() {
     // 1. Parse a JSON string into DOM.
     DSNode<int> node1(1);
-    DSNode<int> node2(5);
-    DSNode<int> node3(4);
-    DSNode<int> node4(8);
-    DSNode<int> node5(3);
+
 
     DSTree<int> myTree;
-    myTree.head = &node1;
     int x = 3;
     myTree.insert(x);
     myTree.insert(2);
@@ -28,8 +25,26 @@ int main() {
     myTree.insert(9);
     myTree.insert(6);
 
+    word jacobBarcalona("hello");
+    word newWord1("aello");
+    word newWord2("bello");
+    word newWord3("cello");
+    word newWord4("dello");
+    word newWord5("eello");
+    word newWord6("fello");
 
+    DSTree<word> wordTree;
 
+    wordTree.insert(jacobBarcalona);
+    wordTree.insert(newWord1);
+    wordTree.insert(newWord2);
+    wordTree.insert(newWord3);
+    wordTree.insert(newWord4);
+    wordTree.insert(newWord5);
+    wordTree.insert(newWord6);
+
+    DSNode<int>* n = new DSNode<int>(5);
+    delete n;
     //node5 = *myTree.findValue(5, &node1);
 
     std::cout << myTree.getBalance(&node1);
