@@ -25,6 +25,10 @@ public:
     bool operator <(const word& input) {
         return id < input.id;
     }
+
+    bool operator ==(const word& input) {
+        return id == input.id;
+    }
 };
 
 #endif //INC_22S_FINAL_PROJ_WORDOBJECT_H

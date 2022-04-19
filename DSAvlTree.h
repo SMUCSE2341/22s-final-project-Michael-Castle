@@ -51,6 +51,10 @@ public:
         return (height(input->left) - height(input->right));
     }
 
+    DSNode<type>* findValue(type input) {
+        return findValue(input, head);
+    }
+
     DSNode<type>* findValue(type input, DSNode<type>* head) {
 
         if(head == nullptr) {
@@ -60,10 +64,10 @@ public:
             return head;
         }
         else if(head->data < input) {
-            return findValue(input, head->left);
+            return findValue(input, head->right);
         }
         else  {
-            return findValue(input, head->right);
+            return findValue(input, head->left);
         }
     }
 
@@ -75,13 +79,16 @@ public:
         //rightChild->left = input;
 
     }
-    void insert(type x) {
-        insert(x, head);
+    DSNode<type>* insert(type x) {
+        return insert(x, head);
 
     }
-    void insert(type& x, DSNode<type> * & top) {
-        if(top == nullptr)
+    DSNode<type>* insert(type& x, DSNode<type> * & top) {
+        if(top == nullptr) {
             top = new DSNode<type>(x);
+
+
+        }
         else if (x < top->data)
             insert(x,top->left);
         else if (top->data < x)
@@ -91,6 +98,9 @@ public:
             //do stuff for duplicate
         }
         balance(top);
+
+        return top;
+
 
     }
 

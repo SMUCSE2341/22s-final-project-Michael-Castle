@@ -2,7 +2,6 @@
 // Created by Michael Castle on 4/10/22.
 //
 #include "parsingData.h"
-#include "porter2_stemmer.h"
 #include <dirent.h>
 #include <sys/stat.h>
 #include <filesystem>
@@ -68,6 +67,7 @@ void Directory::createStopMap() {
 
 
 void Directory::ParseData(const string& filename) {
+    createStopMap();
 
     ifstream file(filename);
     rapidjson::IStreamWrapper wrapper(file);
@@ -76,6 +76,7 @@ void Directory::ParseData(const string& filename) {
 
     rapidjson::Value& text = d["text"];
     rapidjson::Value& uuid = d["uuid"];
+    string idString = uuid.GetString();
 
     string textString = text.GetString();
     istringstream textStream(textString);
@@ -83,15 +84,8 @@ void Directory::ParseData(const string& filename) {
     while(textStream >> tmpWord) {
         if(stopWords[tmpWord]){
 
-        }else{
-//            char* tmp = new char[tmpWord.size()];
-//            strcpy(tmp,tmpWord.c_str());
-//            int tmpInt = stem(tmp, 0, tmpWord.size())-1;
-//            tmp[tmpInt+1] = '\0';
-//            cout << tmpInt << " ";
-//            cout << tmp << endl;
-
-
+        }
+        else{
             int i = tmpWord.size()-1;
             for(int j = 0; j < i+1; j++) {
                 tmpWord[j] = tolower(tmpWord[j]);
@@ -108,12 +102,19 @@ void Directory::ParseData(const string& filename) {
             i = stem(s, 0, i);
             tmpWord.resize(i+1);
 
-            cout << tmpWord << endl;
+            word wordObj(tmpWord);
+            DSNode<word>* location;
+            index.insert(wordObj);
+            location = index.findValue(wordObj);
+
+            if(location != NULL) {
+                location->data.documents.push_back(idString);
+            }
+            //cout << tmpWord << endl;
         }
-        //else
-        //trim tail
-        //push to tree
+
     }
+    file.close();
    // cout << textString;
 
 
