@@ -13,6 +13,13 @@
 
 class Directory{
 public:
+    string tmpWord;
+    string tmps;
+    word wordObj;
+    int i;
+    char s[100];
+    string idString;
+    string textString;
     unordered_map<string, bool> stopWords;
     DSTree<word> index;
     void createStopMap();

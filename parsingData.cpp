@@ -67,7 +67,6 @@ void Directory::createStopMap() {
 
 
 void Directory::ParseData(const string& filename) {
-    createStopMap();
 
     ifstream file(filename);
     rapidjson::IStreamWrapper wrapper(file);
@@ -76,17 +75,20 @@ void Directory::ParseData(const string& filename) {
 
     rapidjson::Value& text = d["text"];
     rapidjson::Value& uuid = d["uuid"];
-    string idString = uuid.GetString();
 
-    string textString = text.GetString();
+    idString = uuid.GetString();
+
+    textString = text.GetString();
     istringstream textStream(textString);
-    string tmpWord;
+
+
+
     while(textStream >> tmpWord) {
         if(stopWords[tmpWord]){
 
         }
         else{
-            int i = tmpWord.size()-1;
+            i = tmpWord.size()-1;
             for(int j = 0; j < i+1; j++) {
                 tmpWord[j] = tolower(tmpWord[j]);
                 if(!isalpha(tmpWord[j])) {
@@ -95,14 +97,13 @@ void Directory::ParseData(const string& filename) {
                 }
             }
             i = tmpWord.size()-1;
-            string tmps = tmpWord;
+            tmps = tmpWord;
 
-            char s[i+1];
             strcpy(s,tmps.c_str());
             i = stem(s, 0, i);
             tmpWord.resize(i+1);
 
-            word wordObj(tmpWord);
+            wordObj.id = tmpWord;
             DSNode<word>* location;
             index.insert(wordObj);
             location = index.findValue(wordObj);
