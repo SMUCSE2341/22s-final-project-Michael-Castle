@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 #include <filesystem>
 #include "fstream"
+#include "sstream"
 
 using namespace std;
 namespace fs = std::__fs::filesystem;
@@ -50,7 +51,7 @@ void Directory::open_dir_using_filesystem(const string& directory){
             if (entry.path().extension().string() == ".json") {
                 string filename = entry.path().c_str();
 
-                parseData();
+
 
                 std::cout << filename << std::endl;
             }
@@ -59,16 +60,26 @@ void Directory::open_dir_using_filesystem(const string& directory){
 }
 
 
+void Directory::ParseData(const string& filename) {
 
-void Directory::parseData() {
-    rapidjson::Document doc;
-    std::string wholeFile;
-// input the whole .json into wholeFile
-//    doc.Parse();
-}
+    ifstream file(filename);
+    rapidjson::IStreamWrapper wrapper(file);
+    rapidjson::Document d;
+    d.ParseStream(filename);
 
-std::string Directory::fileToString(const string& filename) {
     
+
+
+//    file.open(filename);
+//    if(file.is_open()){
+//        while(!file.eof()){
+//            file.getline(buffer, 1000, '\n');
+//            str = string(buffer);
+//        }
+//    }
+
+//    file.close();
+//    cout << str;
 
 
 }
