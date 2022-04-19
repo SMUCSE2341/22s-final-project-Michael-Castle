@@ -116,20 +116,39 @@ void Directory::ParseData(const string& filename) {
 
     }
     file.close();
-   // cout << textString;
 
+}
 
+void Directory::SearchWord(const word searchword) {
+    cout << searchword.id << endl;
+    vector<string> locations = index.findValue(searchword)->data.documents;
+    for(int i = 0; i < locations.size(); i++){
+        if(i == 0 || locations[i] == locations[i-1]){
 
-//    file.open(filename);
-//    if(file.is_open()){
-//        while(!file.eof()){
-//            file.getline(buffer, 1000, '\n');
-//            str = string(buffer);
-//        }
-//    }
+        }else{
+            cout << locations[i] << endl;
+        }
+    }
+}
 
-//    file.close();
-//    cout << str;
+string Directory::stemWord(string searchWord) {
+    int i = 0;
+    string tmps;
+    char s[50];
 
+    i = searchWord.size()-1;
+    for(int j = 0; j < i+1; j++) {
+        searchWord[j] = tolower(searchWord[j]);
+        if(!isalpha(searchWord[j])) {
+            searchWord.resize(j);
+            break;
+        }
+    }
+    i = searchWord.size()-1;
+    tmps = searchWord;
 
+    strcpy(s,tmps.c_str());
+    i = stem(s, 0, i);
+    searchWord.resize(i+1);
+    return searchWord;
 }

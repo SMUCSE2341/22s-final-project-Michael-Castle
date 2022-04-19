@@ -13,6 +13,7 @@
 
 class Directory{
 public:
+    unordered_map<string, bool> documentWords;
     string tmpWord;
     string tmps;
     word wordObj;
@@ -26,6 +27,8 @@ public:
     void open_dir_using_filesystem(const std::string& directory);
     void open_dir_using_dirent(const std::string& directory);
     void ParseData (const std::string& filename);
+    void SearchWord(const word searchword);
+    string stemWord(const string unstemedWord);
 
 };
 

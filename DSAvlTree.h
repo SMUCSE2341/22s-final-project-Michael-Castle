@@ -12,7 +12,6 @@ struct DSNode {
 int height = 0;
 DSNode* left = nullptr;
 DSNode* right = nullptr;
-DSNode* above = nullptr;
 type data;
 
 DSNode(type input, DSNode<type>* l, DSNode<type>* r, int h) {
@@ -26,7 +25,6 @@ DSNode(type d) {
     data = d;
     left = nullptr;
     right = nullptr;
-    above = nullptr;
     height = 0;
 }
 
@@ -100,7 +98,6 @@ public:
         balance(top);
 
         return top;
-
 
     }
 
