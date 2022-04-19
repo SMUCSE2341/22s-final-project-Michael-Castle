@@ -105,7 +105,7 @@ endif()
 
 
 
-add_library(porter2-stemmer porter2_stemmer.cpp)
+add_library(porter2-stemmer ../porter2_stemmer.cpp)
 target_include_directories(porter2-stemmer PUBLIC ${PROJECT_SOURCE_DIR})
 target_compile_options(porter2-stemmer PUBLIC ${STDOPT})
 
