@@ -65,8 +65,11 @@ void Directory::ParseData(const string& filename) {
     ifstream file(filename);
     rapidjson::IStreamWrapper wrapper(file);
     rapidjson::Document d;
-    d.ParseStream(filename);
+    d.ParseStream(wrapper);
 
+    rapidjson::Value& text = d["text"];
+    string textString = text.GetString();
+    cout << textString;
 
 
 

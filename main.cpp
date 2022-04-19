@@ -6,7 +6,13 @@ using namespace std;
 
 int main() {
 
+
+    Directory newDirec;
+    //newDirec.open_dir_using_filesystem("/Users/michael_castle/Desktop/data structures/22s-final-project-william-kornreich/TestingDataSet");
+    newDirec.ParseData("/Users/michael_castle/Desktop/data structures/22s-final-project-william-kornreich/TestingDataSet/FirstGroup/blogs_0000001.json");
     // 1. Parse a JSON string into DOM.
+
+
     DSNode<int> node1(1);
 
 
