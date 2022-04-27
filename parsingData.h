@@ -23,11 +23,14 @@ public:
     string textString;
     unordered_map<string, bool> stopWords;
     DSTree<word> index;
+    DSTree<word> org_index;
+    DSTree<word> person_index;
     void createStopMap();
     void open_dir_using_filesystem(const std::string& directory);
     void open_dir_using_dirent(const std::string& directory);
     void ParseData (const std::string& filename);
     void SearchWord(const word searchword);
+    void SearchPerson(const word searchword);
     string stemWord(const string unstemedWord);
 
 };

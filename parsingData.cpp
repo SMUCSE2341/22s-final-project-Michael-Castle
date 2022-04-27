@@ -10,7 +10,7 @@
 #include "stemmerGiveUp.h"
 
 using namespace std;
-namespace fs = std::__fs::filesystem;
+namespace fs = std::filesystem;
 
 
 void Directory::open_dir_using_dirent(const string& directory) {
@@ -51,7 +51,7 @@ void Directory::open_dir_using_filesystem(const string& directory){
             if (entry.path().extension().string() == ".json") {
                 string filename = entry.path().c_str();
                 ParseData(filename);
-                //std::cout << filename << std::endl;
+                std::cout << filename << std::endl;
             }
         }
     }
@@ -73,48 +73,114 @@ void Directory::ParseData(const string& filename) {
     rapidjson::Document d;
     d.ParseStream(wrapper);
 
-    rapidjson::Value& text = d["text"];
-    rapidjson::Value& uuid = d["uuid"];
+    rapidjson::Value &text = d["text"];
+    rapidjson::Value &persons = d["entities"]["persons"];
+    rapidjson::Value &organizations = d["entities"]["organizations"];
+    rapidjson::Value &uuid = d["uuid"];
 
     idString = uuid.GetString();
-
+    vector<string> personsString;
+    vector<string> orgString;
+    for (int i = 0; i < persons.Size(); i++) {
+        personsString.push_back(persons[i]["name"].GetString());
+    }
+    for (int i = 0; i < organizations.Size(); i++) {
+        orgString.push_back(organizations[i]["name"].GetString());
+    }
     textString = text.GetString();
     istringstream textStream(textString);
 
 
 
-    while(textStream >> tmpWord) {
-        if(stopWords[tmpWord]){
 
-        }
-        else{
-            i = tmpWord.size()-1;
-            for(int j = 0; j < i+1; j++) {
+    while (textStream >> tmpWord) {
+        if (stopWords[tmpWord]) {
+// || tmpWord.size() < 3
+        } else {
+            i = tmpWord.size() - 1;
+            for (int j = 0; j < i + 1; j++) {
                 tmpWord[j] = tolower(tmpWord[j]);
-                if(!isalpha(tmpWord[j])) {
+                if (!isalpha(tmpWord[j])) {
                     tmpWord.resize(j);
                     break;
                 }
             }
-            i = tmpWord.size()-1;
+            i = tmpWord.size() - 1;
             tmps = tmpWord;
 
-            strcpy(s,tmps.c_str());
+            strcpy(s, tmps.c_str());
             i = stem(s, 0, i);
-            tmpWord.resize(i+1);
+            tmpWord.resize(i + 1);
 
             wordObj.id = tmpWord;
-            DSNode<word>* location;
+            DSNode<word> *location;
             index.insert(wordObj);
             location = index.findValue(wordObj);
 
-            if(location != NULL) {
+            if (tmpWord != "") {
                 location->data.documents.push_back(idString);
             }
             //cout << tmpWord << endl;
         }
 
     }
+    for(string wholeName : orgString) {
+        istringstream orgStream(wholeName);
+        while (orgStream >> tmpWord) {
+            if (stopWords[tmpWord]) {
+// || tmpWord.size() < 3
+            } else {
+                i = tmpWord.size() - 1;
+                for (int j = 0; j < i + 1; j++) {
+                    tmpWord[j] = tolower(tmpWord[j]);
+                    if (!isalpha(tmpWord[j])) {
+                        tmpWord.resize(j);
+                        break;
+                    }
+                }
+                wordObj.id = tmpWord;
+                DSNode<word> *location;
+                org_index.insert(wordObj);
+                location = org_index.findValue(wordObj);
+
+                if (tmpWord != "") {
+                    location->data.documents.push_back(idString);
+                }
+                //cout << tmpWord << endl;
+            }
+
+        }
+    }
+
+
+    for(string wholeName : personsString) {
+    istringstream personStream(wholeName);
+        while (personStream >> tmpWord) {
+            if (stopWords[tmpWord]) {
+// || tmpWord.size() < 3
+            } else {
+                i = tmpWord.size() - 1;
+                for (int j = 0; j < i + 1; j++) {
+                    tmpWord[j] = tolower(tmpWord[j]);
+                    if (!isalpha(tmpWord[j])) {
+                        tmpWord.resize(j);
+                        break;
+                    }
+                }
+                wordObj.id = tmpWord;
+                DSNode<word> *location;
+                person_index.insert(wordObj);
+                location = person_index.findValue(wordObj);
+
+                if (tmpWord != "") {
+                    location->data.documents.push_back(idString);
+                }
+                //cout << tmpWord << endl;
+            }
+
+        }
+    }
+
     file.close();
 
 }
@@ -122,6 +188,18 @@ void Directory::ParseData(const string& filename) {
 void Directory::SearchWord(const word searchword) {
     cout << searchword.id << endl;
     vector<string> locations = index.findValue(searchword)->data.documents;
+    for(int i = 0; i < locations.size(); i++){
+        if(i == 0 || locations[i] == locations[i-1]){
+
+        }else{
+            cout << locations[i] << endl;
+        }
+    }
+}
+
+void Directory::SearchPerson(const word searchword) {
+    cout << searchword.id << endl;
+    vector<string> locations = org_index.findValue(searchword)->data.documents;
     for(int i = 0; i < locations.size(); i++){
         if(i == 0 || locations[i] == locations[i-1]){
 
