@@ -11,7 +11,7 @@
 #include "rapidjson/document.h"
 #include "rapidjson/istreamwrapper.h"
 
-class Directory{
+class Directory {
 public:
     unordered_map<string, bool> documentWords;
     string tmpWord;
@@ -25,15 +25,24 @@ public:
     DSTree<word> index;
     DSTree<word> org_index;
     DSTree<word> person_index;
+
     void createStopMap();
-    void open_dir_using_filesystem(const std::string& directory);
-    void open_dir_using_dirent(const std::string& directory);
-    void ParseData (const std::string& filename);
-    void SearchWord(const word searchword);
+
+    void open_dir_using_filesystem(const std::string &directory);
+
+    void open_dir_using_dirent(const std::string &directory);
+
+    void ParseData(const std::string &filename);
+
+    vector<string> SearchWord(const word searchword);
+
     void SearchPerson(const word searchword);
+
     string stemWord(const string unstemedWord);
 
+    vector<string> searchAnd(vector<string> words, vector<string> persons, vector<string> orgs, vector<string> notWords, vector<string> notPersons, vector<string> notOrgs);
+    vector<string> searchOr(vector<string> words, vector<string> persons, vector<string> orgs, vector<string> notWords, vector<string> notPersons, vector<string> notOrgs);
+
+
 };
-
-
 #endif //INC_22S_FINAL_PROJ_PARSINGDATA_H

@@ -2,6 +2,7 @@
 // Created by Michael Castle on 4/10/22.
 //
 #include "parsingData.h"
+#include "vectorHelper.h"
 #include <dirent.h>
 #include <sys/stat.h>
 #include <filesystem>
@@ -39,7 +40,7 @@ void Directory::open_dir_using_dirent(const string& directory) {
         if (S_ISDIR(filestat.st_mode))  { //If the file is a directory, recursive call to this function
             open_dir_using_dirent(filepath);
         } else {
-            cout << filepath <<endl; //else print out the name of the file
+            //cout << filepath <<endl; //else print out the name of the file
         }
     }
     closedir(dp); // closing the directory
@@ -51,7 +52,7 @@ void Directory::open_dir_using_filesystem(const string& directory){
             if (entry.path().extension().string() == ".json") {
                 string filename = entry.path().c_str();
                 ParseData(filename);
-                std::cout << filename << std::endl;
+                //std::cout << filename << std::endl;
             }
         }
     }
@@ -185,16 +186,20 @@ void Directory::ParseData(const string& filename) {
 
 }
 
-void Directory::SearchWord(const word searchword) {
+vector<string> Directory::SearchWord(const word searchword) {
+    vectorHelper myHelp;
+    vector<string> returnVector;
     cout << searchword.id << endl;
-    vector<string> locations = index.findValue(searchword)->data.documents;
-    for(int i = 0; i < locations.size(); i++){
-        if(i == 0 || locations[i] == locations[i-1]){
-
-        }else{
-            cout << locations[i] << endl;
+    DSNode<word>* tmpWord = index.findValue(searchword);
+    if(tmpWord != nullptr) {
+        vector<string> locations = tmpWord->data.documents;
+        for (int i = 0; i < locations.size(); i++) {
+            returnVector.push_back(locations[i]);
         }
+        myHelp.pruneVector(&returnVector);
     }
+    return returnVector;
+
 }
 
 void Directory::SearchPerson(const word searchword) {
@@ -230,3 +235,82 @@ string Directory::stemWord(string searchWord) {
     searchWord.resize(i+1);
     return searchWord;
 }
+
+vector<string>
+Directory::searchAnd(vector<string> words, vector<string> persons, vector<string> orgs, vector<string> notWords,
+                     vector<string> notPersons, vector<string> notOrgs) {
+
+    vector<string> returnVector;
+    vector<string> tmpVector;
+    vectorHelper myHelp;
+    word tmpWord;
+    tmpWord.id = words.at(0);
+    returnVector = SearchWord(tmpWord);
+    for(int i = 1; i < words.size(); i++) {
+        tmpWord.id = words.at(i);
+        tmpVector = SearchWord(tmpWord);
+        returnVector = myHelp.combineAnd(&returnVector, &tmpVector);
+    }
+//    for(int i = 0; i < words.size(); i++) {
+//        tmpVector = SearchPersons(persons.at(i));
+//        returnVector = myHelp.combineAnd(&returnVector, &tmpVector);
+//    }
+//    for(int i = 0; i < words.size(); i++) {
+//        tmpVector = SearchOrgs(Orgs.at(i));
+//        returnVector = myHelp.combineAnd(&returnVector, &tmpVector);
+//    }
+
+    for(string notWord : notWords) {
+        tmpWord.id = notWord;
+        tmpVector = SearchWord(tmpWord);
+        returnVector = myHelp.combineNot(&returnVector, &tmpVector);
+    }
+
+    return returnVector;
+}
+
+
+vector<string>
+Directory::searchOr(vector<string> words, vector<string> persons, vector<string> orgs, vector<string> notWords,
+                     vector<string> notPersons, vector<string> notOrgs) {
+
+    vector<string> returnVector;
+    vector<string> tmpVector;
+    vectorHelper myHelp;
+    word tmpWord;
+    tmpWord.id = words.at(0);
+    returnVector = SearchWord(tmpWord);
+    for(int i = 1; i < words.size(); i++) {
+        tmpWord.id = words.at(i);
+        tmpVector = SearchWord(tmpWord);
+        returnVector = myHelp.combineOr(&returnVector, &tmpVector);
+    }
+//    for(int i = 0; i < words.size(); i++) {
+//        tmpVector = SearchPersons(persons.at(i));
+//        returnVector = myHelp.combineOr(&returnVector, &tmpVector);
+//    }
+//    for(int i = 0; i < words.size(); i++) {
+//        tmpVector = SearchOrgs(Orgs.at(i));
+//        returnVector = myHelp.combineOr(&returnVector, &tmpVector);
+//    }
+
+    for(string notWord : notWords) {
+        tmpWord.id = notWord;
+        tmpVector = SearchWord(tmpWord);
+        returnVector = myHelp.combineNot(&returnVector, &tmpVector);
+    }
+
+//    for(string notWord : notOrgs) {
+//        tmpWord.id = notWord;
+//        tmpVector = SearchOrgs(tmpWord);
+//        returnVector = myHelp.combineNot(&returnVector, &tmpVector);
+//    }
+//
+//    for(string notWord : notPersons) {
+//        tmpWord.id = notWord;
+//        tmpVector = SearchPersons(tmpWord);
+//        returnVector = myHelp.combineNot(&returnVector, &tmpVector);
+//    }
+    return returnVector;
+}
+
