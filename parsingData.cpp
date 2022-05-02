@@ -82,11 +82,37 @@ void Directory::ParseData(const string& filename) {
     idString = uuid.GetString();
     vector<string> personsString;
     vector<string> orgString;
-    for (int i = 0; i < persons.Size(); i++) {
+    for(int i = 0; i < persons.Size(); i++) {
         personsString.push_back(persons[i]["name"].GetString());
     }
-    for (int i = 0; i < organizations.Size(); i++) {
+    for(int i = 0; i < organizations.Size(); i++) {
         orgString.push_back(organizations[i]["name"].GetString());
+    }
+    for (int i = 0; i < personsString.size(); i++) {
+        vector<string>* vectorPoint = personHash.findPoint(personsString.at(i));
+        if(vectorPoint == nullptr) {
+            vector<string> tmpV;
+            tmpV.push_back(idString);
+            //cout << personsString.at(i) << endl;
+            personHash.insertElement(personsString.at(i), tmpV);
+        }
+        else {
+            cout << idString << endl;
+            vectorPoint->push_back(idString);
+        }
+
+        //personsString.push_back(persons[i]["name"].GetString());
+    }
+    for (int i = 0; i < orgString.size(); i++) {
+        vector<string>* vectorPoint = orgHash.findPoint(orgString.at(i));
+        if(vectorPoint == nullptr) {
+            vector<string> tmpV;
+            tmpV.push_back(idString);
+            orgHash.insertElement(orgString.at(i), tmpV);
+        }
+        else {
+            vectorPoint->push_back(idString);
+        }
     }
     textString = text.GetString();
     istringstream textStream(textString);
@@ -118,7 +144,7 @@ void Directory::ParseData(const string& filename) {
             index.insert(wordObj);
             location = index.findValue(wordObj);
 
-            if (tmpWord != "") {
+            if (tmpWord != "" && tmpWord != "iraqi") {
                 location->data.documents.push_back(idString);
             }
             //cout << tmpWord << endl;

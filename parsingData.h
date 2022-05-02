@@ -8,6 +8,7 @@
 #include "wordObject.h"
 #include "iostream"
 #include "DSAvlTree.h"
+#include "hashtable.h"
 #include "rapidjson/document.h"
 #include "rapidjson/istreamwrapper.h"
 
@@ -25,6 +26,8 @@ public:
     DSTree<word> index;
     DSTree<word> org_index;
     DSTree<word> person_index;
+    HashTable orgHash;
+    HashTable personHash;
 
     void createStopMap();
 

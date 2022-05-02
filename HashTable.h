@@ -41,20 +41,6 @@ public:
         tableSize = 0;
         table = new list<pair<string, vector<string>>>[total_elements];
 
-//        list<pair<string, vector<string>>> tmpList;
-//        pair<string, vector<string>> tmpPair;
-//        tmpPair.first = "hello\0";
-//        vector<string> tmpV = {"1", "2"};
-//        tmpPair.second = tmpV;
-//        tmpList.push_back(tmpPair);
-//        table[2] = tmpList;
-//        table[1] = tmpList;
-//        table[0] = tmpList;
-//        cout << table[2].front().first << endl;
-//        cout << "finished";
-//        for(int i = 0; i < total_elements; i++) {
-//            table[i] = new list<pair<string, vector<string>>>;
-//        }
 
     }
 
@@ -73,12 +59,12 @@ public:
         if(tableSize/((double)total_elements) > max_load_factor){
             tableSize = 0;
 
-            list<pair<string, vector<string>>> tmpTable[total_elements];
+            list<pair<string, vector<string>>>* tmpTable;
 
 
-            for(int i = 0; i < total_elements; i++) {
-                tmpTable[i] = table[i];
-            }
+
+            tmpTable = table;
+
             total_elements = total_elements * 3;
             table = new list<pair<string, vector<string>>>[total_elements];
 
@@ -92,6 +78,9 @@ public:
                     oldList->remove(oldList->front());
                 }
             }
+            delete[] tmpTable;
+
+
         }
     }
 
@@ -108,6 +97,27 @@ public:
         vector<string> empty;
         return empty;
     }
+
+    vector<string>* findPoint(string key) {
+        list<pair<string, vector<string>>> tmpList;
+        int hashNum = hash(key);
+        tmpList = table[hashNum];
+        while(!tmpList.empty()) {
+            if(tmpList.front().first==key) {
+                return &tmpList.front().second;
+            }
+            tmpList.remove(tmpList.front());
+        }
+        return nullptr;
+    }
+
+
+
+    ~HashTable() {
+        delete[] table;
+    }
+
+
 
 
 
