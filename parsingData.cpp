@@ -11,7 +11,7 @@
 #include "stemmerGiveUp.h"
 
 using namespace std;
-namespace fs = std::__fs::filesystem;
+namespace fs = std::filesystem;
 
 
 void Directory::open_dir_using_dirent(const string& directory) {

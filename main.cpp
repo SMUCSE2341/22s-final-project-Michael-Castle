@@ -21,6 +21,8 @@ int main(int argc, char* const args[]) {
     HashTable ht;
 
     string first = "Michael";
+    string second = "William";
+    string third = "Kevin";
     vector<string> testVector;
     testVector.push_back("1");
     testVector.push_back("2");
@@ -28,6 +30,9 @@ int main(int argc, char* const args[]) {
     testVector.push_back("4");
 
     ht.insertElement(first, testVector);
+    ht.insertElement(second, testVector);
+    ht.insertElement(second, testVector);
+    ht.insertElement(third, testVector);
     vector<string> outVector = ht.find(first) ;
     cout << outVector.at(1) << endl;
 
