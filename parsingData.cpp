@@ -10,7 +10,7 @@
 #include "stemmerGiveUp.h"
 
 using namespace std;
-namespace fs = std::filesystem;
+namespace fs = std::__fs::filesystem;
 
 
 void Directory::open_dir_using_dirent(const string& directory) {
@@ -51,7 +51,7 @@ void Directory::open_dir_using_filesystem(const string& directory){
             if (entry.path().extension().string() == ".json") {
                 string filename = entry.path().c_str();
                 ParseData(filename);
-                std::cout << filename << std::endl;
+                //std::cout << filename << std::endl;
             }
         }
     }
