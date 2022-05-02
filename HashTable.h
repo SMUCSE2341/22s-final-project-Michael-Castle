@@ -110,6 +110,17 @@ public:
         }
         return nullptr;
     }
+    void appendID(string key, string ID) {
+        int hashNum = hash(key);
+        std::list<pair<string, vector<string>>>::iterator it;
+        for(it = table[hashNum].begin(); it != table[hashNum].end(); it++) {
+            if(it->first == key) {
+                it->second.push_back(ID);
+            }
+        }
+
+
+    }
 
 
 

@@ -13,8 +13,15 @@ int main(int argc, char* const args[]) {
 
     newDirec.createStopMap();
     newDirec.open_dir_using_filesystem(DataSet);
+    myWord.id = "trump";
 
-    newDirec.SearchWord(myWord);
+    //newDirec.SearchWord(myWord);
+
+    vector<string> peopleID;
+    peopleID = newDirec.SearchPerson(myWord);
+    for(int i = 0; i < peopleID.size(); i++) {
+        cout << peopleID.at(i) << endl;
+    }
 
     cout << "hello";
     // Create a hash table with 3 indices:

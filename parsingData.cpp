@@ -95,10 +95,11 @@ void Directory::ParseData(const string& filename) {
             tmpV.push_back(idString);
             //cout << personsString.at(i) << endl;
             personHash.insertElement(personsString.at(i), tmpV);
+            vectorPoint = personHash.findPoint(personsString.at(i));
         }
         else {
-            cout << idString << endl;
-            vectorPoint->push_back(idString);
+            //cout << idString << endl;
+            personHash.appendID(personsString.at(i), idString);
         }
 
         //personsString.push_back(persons[i]["name"].GetString());
@@ -111,7 +112,7 @@ void Directory::ParseData(const string& filename) {
             orgHash.insertElement(orgString.at(i), tmpV);
         }
         else {
-            vectorPoint->push_back(idString);
+            orgHash.appendID(orgString.at(i), idString);
         }
     }
     textString = text.GetString();
@@ -227,17 +228,20 @@ vector<string> Directory::SearchWord(const word searchword) {
     return returnVector;
 
 }
-
-void Directory::SearchPerson(const word searchword) {
-    cout << searchword.id << endl;
-    vector<string> locations = org_index.findValue(searchword)->data.documents;
-    for(int i = 0; i < locations.size(); i++){
-        if(i == 0 || locations[i] == locations[i-1]){
-
-        }else{
-            cout << locations[i] << endl;
-        }
+ vector<string> Directory::SearchPerson(const word searchword) {
+    string tmp = searchword.id;
+    for(int i = 0; i < tmp.size(); i++) {
+        tmp[i] = tolower(tmp[i]);
     }
+    return personHash.find(tmp);
+}
+
+vector<string> Directory::SearchOrg(const word searchword) {
+    string tmp = searchword.id;
+    for(int i = 0; i < tmp.size(); i++) {
+        tmp[i] = tolower(tmp[i]);
+    }
+    return orgHash.find(tmp);
 }
 
 string Directory::stemWord(string searchWord) {

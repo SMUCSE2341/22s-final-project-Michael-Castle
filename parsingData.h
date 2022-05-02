@@ -39,7 +39,10 @@ public:
 
     vector<string> SearchWord(const word searchword);
 
-    void SearchPerson(const word searchword);
+    vector<string> SearchPerson(const word searchword);
+
+    vector<string> SearchOrg(const word searchword);
+
 
     string stemWord(const string unstemedWord);
 
