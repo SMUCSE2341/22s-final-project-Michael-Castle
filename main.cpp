@@ -4,8 +4,8 @@
 
 
 int main(int argc, char* const args[]) {
-    string searchWord = args[2];
-    string DataSet = args[1];
+    string searchWord = args[1];
+    string DataSet = args[2];
     Directory newDirec;
     searchWord = newDirec.stemWord(searchWord);
 
@@ -36,9 +36,13 @@ int main(int argc, char* const args[]) {
     vector<string> notWordVector;
     vector<string> notPersonVector;
     vector<string> notOrgVector;
+
+
     //TODO at the end just use the function you made in parsingData with all 6 vectors pretty close to done. then loop
     // around until first input is q. remember to add some extra check so that it doesnt auto exit if the first letter is
     // q for a longer query.
+
+
     while(!iss.eof()) {
         iss >> tmp;
         inputVector.push_back(tmp);
@@ -77,6 +81,13 @@ int main(int argc, char* const args[]) {
             }
         }
     }
+
+
+
+
+
+
+
 
     //cout << "hello";
     // Create a hash table with 3 indices:
