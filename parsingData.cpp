@@ -360,6 +360,42 @@ Directory::searchOr(vector<string> words, vector<string> persons, vector<string>
     return returnVector;
 }
 
+
+
+
+vector<string> Directory::Ranking(vector<string> DocIds, vector<string> words) {
+    vector<pair<int, string>> uuidWithRankings;
+    DSDocument tmp;
+    vector<string> tempVec;
+    vector<string> finalVec;
+    vector<int> integerVec;
+    string temp;
+    int counter = 0;
+    for(int i = 0; i < DocIds.size(); i++){
+        temp = getText(DocIds.at(i));
+        tempVec = tmp.putWordsInVec(temp);
+
+        for (int j = 0; j < words.size(); j++) {
+            for (int n = 0; n < tempVec.size(); n++) {
+                if (tempVec.at(n) == words.at(j)){
+                    counter++;
+                }
+            }
+        }
+        uuidWithRankings.push_back(make_pair(counter, (DocIds.at(i))));
+        counter = 0;
+    }
+    sort(uuidWithRankings.begin(), uuidWithRankings.end());
+
+    for(int v = 0; v < 10 || integerVec.size(); v++){
+        finalVec.at(v) = uuidWithRankings.at(v).second;
+    }
+
+    return finalVec;
+}
+
+
+
 string Directory::getText(const string ID) {
     DSDocument tmp;
     tmp.ID = ID;

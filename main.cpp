@@ -102,8 +102,10 @@ int main(int argc, char* const args[]) {
         }
     }
     vector<string> searchVector = newDirec.searchOr(wordVector, personVector, orgVector, notWordVector, notPersonVector, notOrgVector);
-
-
+    vector<string> rankedIDs = newDirec.Ranking(searchVector, wordVector);
+    for(int i =0; i < rankedIDs.size(); i++){
+        cout << rankedIDs.at(i) << endl;
+    }
 
 
 

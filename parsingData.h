@@ -51,6 +51,7 @@ public:
     vector<string> searchAnd(vector<string> words, vector<string> persons, vector<string> orgs, vector<string> notWords, vector<string> notPersons, vector<string> notOrgs);
     vector<string> searchOr(vector<string> words, vector<string> persons, vector<string> orgs, vector<string> notWords, vector<string> notPersons, vector<string> notOrgs);
 
+    vector<string> Ranking(vector<string> DocIds, vector<string> words);
 
 };
 #endif //INC_22S_FINAL_PROJ_PARSINGDATA_H
