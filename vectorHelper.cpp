@@ -15,7 +15,6 @@ vector<string> vectorHelper::combineAnd(vector<string> *a, vector<string> *b) {
         }
     }
 
-
     return returnVector;
 }
 
