@@ -4,8 +4,8 @@
 
 
 int main(int argc, char* const args[]) {
-    string searchWord = args[1];
-    string DataSet = args[2];
+    string searchWord = args[2];
+    string DataSet = args[1];
     Directory newDirec;
     searchWord = newDirec.stemWord(searchWord);
 
@@ -26,7 +26,6 @@ int main(int argc, char* const args[]) {
     bool person = false;
     bool org = false;
     std::string stringvalues = "125 320 512 750 333";
-    std::istringstream iss (usrInput);
     vector<string> inputVector;
     string tmp;
 
@@ -42,95 +41,114 @@ int main(int argc, char* const args[]) {
     // around until first input is q. remember to add some extra check so that it doesnt auto exit if the first letter is
     // q for a longer query.
 
+    while(usrInput.size() > 1 && usrInput[0] != 'q') {
+        std::istringstream iss (usrInput);
+        while (!iss.eof()) {
+            iss >> tmp;
+            inputVector.push_back(tmp);
+        }
+        for (int i = 0; i < inputVector.size(); i++) {
+            //cout << inputVector.at(i) << endl;
+        }
 
-    while(!iss.eof()) {
-        iss >> tmp;
-        inputVector.push_back(tmp);
-    }
-    for(int i = 0; i < inputVector.size(); i++) {
-        cout << inputVector.at(i) << endl;
-    }
+        for (int i = 0; i < inputVector.size(); i++) {
+            if (inputVector.at(i) == "AND") {
 
-    for(int i = 0; i < inputVector.size(); i++) {
-        if(inputVector.at(i) == "AND") {
+            } else if (inputVector.at(i) == "OR") {
+                andQuery = false;
+                orQuery = true;
+            } else if (inputVector.at(i) == "PERSON") {
+                word = false;
+                person = true;
+                org = false;
+            } else if (inputVector.at(i) == "ORG") {
+                word = false;
+                person = false;
+                org = true;
+            } else if (inputVector.at(i) == "NOT") {
+                notQuery = true;
+                word = true;
+                person = false;
+                org = false;
+            } else {//push to respective lists here. not that much work maybe 15 minutes
+                if (!notQuery) {
+                    if (word) {
+                        wordVector.push_back(inputVector.at(i));
+                    } else if (person) {
+                        personVector.push_back(inputVector.at(i));
+                    } else if (org) {
+                        orgVector.push_back(inputVector.at(i));
+                    }
 
-        }
-        else if(inputVector.at(i) == "OR") {
-            andQuery = false;
-            orQuery = true;
-        }
-        else if(inputVector.at(i) == "PERSON") {
-            word = false;
-            person = true;
-            org = false;
-        }
-        else if(inputVector.at(i) == "ORG") {
-            word = false;
-            person = false;
-            org = true;
-        }
-        else if(inputVector.at(i) == "NOT") {
-            notQuery = true;
-            word = true;
-            person = false;
-            org = false;
-        }
-        else {//push to respective lists here. not that much work maybe 15 minutes
-            if(!notQuery) {
-               if(word) {
-                   wordVector.push_back(inputVector.at(i));
-               }
-               else if (person){
-                   personVector.push_back(inputVector.at(i));
-               }
-               else if(org ){
-                   orgVector.push_back(inputVector.at(i));
-               }
-
-            }
-            else {
-                if(word){
-                    notWordVector.push_back(inputVector.at(i));
-                }
-                else if (person) {
-                    notPersonVector.push_back(inputVector.at(i));
-                }
-                else if(org ) {
-                    notOrgVector.push_back(inputVector.at(i));
+                } else {
+                    if (word) {
+                        notWordVector.push_back(inputVector.at(i));
+                    } else if (person) {
+                        notPersonVector.push_back(inputVector.at(i));
+                    } else if (org) {
+                        notOrgVector.push_back(inputVector.at(i));
+                    }
                 }
             }
         }
+        vector<string> searchVector;
+        if(orQuery) {
+            searchVector = newDirec.searchOr(wordVector, personVector, orgVector, notWordVector,
+                                             notPersonVector, notOrgVector);
+        }
+        else {
+            searchVector = newDirec.searchAnd(wordVector, personVector, orgVector, notWordVector,
+                                             notPersonVector, notOrgVector);
+        }
+        vector<string> rankedIDs = newDirec.Ranking(searchVector, wordVector);
+        string docText;
+        for (int i = 0; i < rankedIDs.size(); i++) {
+            docText = newDirec.getText(rankedIDs.at(i));
+            cout << i+1 << ": ";
+            for(int j = 0; j < 60 & j < docText.size(); j++) {
+                cout << docText[j];
+            }
+            cout << endl;
+            for(int j = 61; j < 120 & j < docText.size(); j++) {
+                cout << docText[j];
+            }
+            cout << "..." << endl << endl;
+
+        }
+        cout << endl << "please enter the document number which you want to read" << endl;
+        int docNum;
+        cin >> docNum;
+        docNum--;
+        if(docNum < rankedIDs.size() && docNum >= 0) {
+            cout << newDirec.getText(rankedIDs.at(docNum)) << endl;
+        }
+        cin.get();
+
+        cout << "please enter search query, or 'q' to quit." << endl;
+        getline(cin, usrInput);
+        andQuery = true;
+        orQuery = false;
+        notQuery = false;
+
+        word = true;
+        person = false;
+        org = false;
+
+        //iss.str (usrInput);
+
+
+        inputVector.clear();
+        wordVector.clear();
+        personVector.clear();
+        orgVector.clear();
+        notWordVector.clear();
+        notPersonVector.clear();
+        notOrgVector.clear();
+
+
     }
-    vector<string> searchVector = newDirec.searchOr(wordVector, personVector, orgVector, notWordVector, notPersonVector, notOrgVector);
-    vector<string> rankedIDs = newDirec.Ranking(searchVector, wordVector);
-    for(int i =0; i < rankedIDs.size(); i++){
-        cout << rankedIDs.at(i) << endl;
-    }
 
 
-
-
-
-
-    //cout << "hello";
-    // Create a hash table with 3 indices:
-//    HashTable ht;
-//
-//    string first = "Michael";
-//    string second = "William";
-//    string third = "Kevin";
-//    vector<string> testVector;
-//    testVector.push_back("1");
-//    testVector.push_back("2");
-//    testVector.push_back("3");
-//    testVector.push_back("4");
-//
-//    ht.insertElement(first, testVector);
-//    ht.insertElement(second, testVector);
-//    ht.insertElement(second, testVector);
-//    ht.insertElement(third, testVector);
-//    vector<string> outVector = ht.find(first) ;
-//    cout << outVector.at(1) << endl;
 
 
 

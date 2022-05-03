@@ -9,6 +9,7 @@
 #include "fstream"
 #include "sstream"
 #include "stemmerGiveUp.h"
+#include <algorithm>
 
 
 using namespace std;
@@ -364,31 +365,33 @@ Directory::searchOr(vector<string> words, vector<string> persons, vector<string>
 
 
 vector<string> Directory::Ranking(vector<string> DocIds, vector<string> words) {
-    vector<pair<int, string>> uuidWithRankings;
+    vector<pair<double, string>> uuidWithRankings;
     DSDocument tmp;
     vector<string> tempVec;
     vector<string> finalVec;
     vector<int> integerVec;
     string temp;
-    int counter = 0;
+    double counter = 0;
     for(int i = 0; i < DocIds.size(); i++){
         temp = getText(DocIds.at(i));
         tempVec = tmp.putWordsInVec(temp);
 
         for (int j = 0; j < words.size(); j++) {
             for (int n = 0; n < tempVec.size(); n++) {
+                tempVec.at(n) = stemWord(tempVec.at(n));
                 if (tempVec.at(n) == words.at(j)){
                     counter++;
                 }
             }
         }
+        counter = counter/tempVec.size();
         uuidWithRankings.push_back(make_pair(counter, (DocIds.at(i))));
         counter = 0;
     }
     sort(uuidWithRankings.begin(), uuidWithRankings.end());
 
-    for(int v = 0; v < 10 || integerVec.size(); v++){
-        finalVec.at(v) = uuidWithRankings.at(v).second;
+    for(int v = 0; v < 10 && v < uuidWithRankings.size(); v++){
+        finalVec.push_back(uuidWithRankings.at(uuidWithRankings.size()-v-1).second);
     }
 
     return finalVec;
