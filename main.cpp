@@ -1,6 +1,8 @@
 
 #include <sstream>
 #include "parsingData.h"
+#include <algorithm>
+#include <chrono>
 
 
 int main(int argc, char* const args[]) {
@@ -14,6 +16,19 @@ int main(int argc, char* const args[]) {
 
     newDirec.createStopMap();
     newDirec.open_dir_using_filesystem(DataSet);
+
+    vector<word> allWords = newDirec.index.toVector();
+    vector<pair<int,string>> wordFreq;
+    for(int i = 0; i < allWords.size(); i++) {
+        wordFreq.push_back(make_pair(allWords.at(i).count,allWords.at(i).id));
+    }
+    cout << "most common words" << endl;
+    sort(wordFreq.begin(), wordFreq.end());
+    for(int i = 1; i < 26; i++ ) {
+        cout << i << ": " << wordFreq.at(wordFreq.size()-i).second << "count: " << wordFreq.at(wordFreq.size()-i).first << endl;
+    }
+
+
 
     string usrInput;
     cout << "please enter search query, or 'q' to quit." << endl;
@@ -124,8 +139,9 @@ int main(int argc, char* const args[]) {
         }
         cin.get();
 
-        cout << "please enter search query, or 'q' to quit." << endl;
+        cout << endl << "please enter search query, or 'q' to quit." << endl;
         getline(cin, usrInput);
+
         andQuery = true;
         orQuery = false;
         notQuery = false;

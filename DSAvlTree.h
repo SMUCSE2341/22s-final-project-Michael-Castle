@@ -169,6 +169,20 @@ public:
             delete input;
         }
     }
+    vector<type> toVector() {
+        vector<type> outVector;
+        recursiveVector(head, &outVector);
+        return outVector;
+
+    }
+
+    void recursiveVector(DSNode<type>* input, vector<type>* v) {
+        if(input != nullptr) {
+            recursiveVector(input->left, v);
+            recursiveVector(input->right, v);
+            v->push_back(input->data);
+        }
+    }
 
 
 };

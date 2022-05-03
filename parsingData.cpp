@@ -152,6 +152,7 @@ void Directory::ParseData(const string& filename) {
 
             if (tmpWord != "" && tmpWord != "iraqi") {
                 location->data.documents.push_back(idString);
+                location->data.count++;
             }
             //cout << tmpWord << endl;
         }

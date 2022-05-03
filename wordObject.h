@@ -11,6 +11,7 @@ using namespace std;
 
 class word{
 public:
+    int count = 0;
     string id;
     vector<string> documents;
 
