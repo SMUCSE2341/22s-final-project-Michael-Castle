@@ -97,7 +97,7 @@ public:
         vector<string> empty;
         return empty;
     }
-
+    ///DO NOT USE THIS THING IS BAD!
     vector<string>* findPoint(string key) {
         list<pair<string, vector<string>>> tmpList;
         int hashNum = hash(key);
