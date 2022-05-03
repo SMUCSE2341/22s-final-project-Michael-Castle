@@ -18,8 +18,11 @@ class DSDocument {
 public:
     string ID;
     string text;
-    bool operator<(const DSDocument& input) {
+    bool operator<(const DSDocument& input) const {
         return ID<input.ID;
+    }
+    bool operator==(const DSDocument& input) const {
+        return ID==input.ID;
     }
 
 

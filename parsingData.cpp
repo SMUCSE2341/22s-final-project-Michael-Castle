@@ -362,7 +362,7 @@ Directory::searchOr(vector<string> words, vector<string> persons, vector<string>
 
 string Directory::getText(const string ID) {
     DSDocument tmp;
-    tmp.ID = ID
+    tmp.ID = ID;
     return documentTree.findValue(tmp)->data.text;
 }
 
