@@ -92,7 +92,7 @@ int main(int argc, char* const args[]) {
                 if(word){
                     notWordVector.push_back(inputVector.at(i));
                 }
-                else if (person){
+                else if (person) {
                     notPersonVector.push_back(inputVector.at(i));
                 }
                 else if(org ) {
@@ -101,6 +101,7 @@ int main(int argc, char* const args[]) {
             }
         }
     }
+    newDirec.searchOr(wordVector, personVector, orgVector, notWordVector, notPersonVector, notOrgVector);
 
 
 
