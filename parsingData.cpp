@@ -281,18 +281,30 @@ Directory::searchAnd(vector<string> words, vector<string> persons, vector<string
         tmpVector = SearchWord(tmpWord);
         returnVector = myHelp.combineAnd(&returnVector, &tmpVector);
     }
-//    for(int i = 0; i < words.size(); i++) {
-//        tmpVector = SearchPersons(persons.at(i));
-//        returnVector = myHelp.combineAnd(&returnVector, &tmpVector);
-//    }
-//    for(int i = 0; i < words.size(); i++) {
-//        tmpVector = SearchOrgs(Orgs.at(i));
-//        returnVector = myHelp.combineAnd(&returnVector, &tmpVector);
-//    }
+    for(int i = 0; i < words.size(); i++) {
+        tmpVector = SearchPerson(persons.at(i));
+        returnVector = myHelp.combineAnd(&returnVector, &tmpVector);
+    }
+    for(int i = 0; i < words.size(); i++) {
+        tmpVector = SearchOrg(orgs.at(i));
+        returnVector = myHelp.combineAnd(&returnVector, &tmpVector);
+    }
 
     for(string notWord : notWords) {
         tmpWord.id = notWord;
         tmpVector = SearchWord(tmpWord);
+        returnVector = myHelp.combineNot(&returnVector, &tmpVector);
+    }
+
+    for(string notOrg : notOrgs) {
+        tmpWord.id = notOrg;
+        tmpVector = SearchOrg(tmpWord);
+        returnVector = myHelp.combineNot(&returnVector, &tmpVector);
+    }
+
+    for(string notWord : notPersons) {
+        tmpWord.id = notWord;
+        tmpVector = SearchPerson(tmpWord);
         returnVector = myHelp.combineNot(&returnVector, &tmpVector);
     }
 

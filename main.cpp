@@ -80,7 +80,7 @@ int main(int argc, char* const args[]) {
                    personVector.push_back(inputVector.at(i));
                }
                else if(org ) {
-                   personVector.push_back(inputVector.at(i));
+                   orgVector.push_back(inputVector.at(i));
                }
 
             }
@@ -89,14 +89,15 @@ int main(int argc, char* const args[]) {
                     notWordVector.push_back(inputVector.at(i));
                 }
                 else if (person) {
-                    personVector.push_back(inputVector.at(i));
+                    notPersonVector.push_back(inputVector.at(i));
                 }
                 else if(org ) {
-                    personVector.push_back(inputVector.at(i));
+                    notOrgVector.push_back(inputVector.at(i));
                 }
             }
         }
     }
+    newDirec.searchOr(wordVector, personVector, orgVector, notWordVector, notPersonVector, notOrgVector);
 
     //cout << "hello";
     // Create a hash table with 3 indices:
