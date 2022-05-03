@@ -16,7 +16,7 @@
 using namespace std;
 class DSDocument {
 public:
-    const char *ID;
+    string ID;
     string text;
     bool operator<(const DSDocument& input) {
         return ID<input.ID;

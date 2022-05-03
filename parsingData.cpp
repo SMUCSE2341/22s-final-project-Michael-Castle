@@ -10,6 +10,7 @@
 #include "sstream"
 #include "stemmerGiveUp.h"
 
+
 using namespace std;
 namespace fs = std::filesystem;
 
@@ -118,7 +119,10 @@ void Directory::ParseData(const string& filename) {
     textString = text.GetString();
     istringstream textStream(textString);
 
-
+    DSDocument tmpDocument;
+    tmpDocument.ID = idString;
+    tmpDocument.text = textString;
+    documentTree.insert(tmpDocument);
 
 
     while (textStream >> tmpWord) {
@@ -354,5 +358,11 @@ Directory::searchOr(vector<string> words, vector<string> persons, vector<string>
         returnVector = myHelp.combineNot(&returnVector, &tmpVector);
     }
     return returnVector;
+}
+
+string Directory::getText(const string ID) {
+    DSDocument tmp;
+    tmp.ID = ID
+    return documentTree.findValue(tmp)->data.text;
 }
 

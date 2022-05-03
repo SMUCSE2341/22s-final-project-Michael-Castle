@@ -11,6 +11,7 @@
 #include "hashtable.h"
 #include "rapidjson/document.h"
 #include "rapidjson/istreamwrapper.h"
+#include "DSDocument.h"
 
 class Directory {
 public:
@@ -28,7 +29,7 @@ public:
     DSTree<word> person_index;
     HashTable orgHash;
     HashTable personHash;
-
+    DSTree<DSDocument> documentTree;
     void createStopMap();
 
     void open_dir_using_filesystem(const std::string &directory);
@@ -43,6 +44,7 @@ public:
 
     vector<string> SearchOrg(const word searchword);
 
+    string getText(string uuid);
 
     string stemWord(const string unstemedWord);
 
