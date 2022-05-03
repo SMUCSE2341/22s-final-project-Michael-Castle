@@ -72,8 +72,28 @@ int main(int argc, char* const args[]) {
             org = false;
         }
         else {//push to respective lists here. not that much work maybe 15 minutes
-            if(word) {
-                wordVector.push_back(inputVector.at(i));
+            if(!notQuery) {
+               if(word) {
+                   wordVector.push_back(inputVector.at(i));
+               }
+               else if (person) {
+                   personVector.push_back(inputVector.at(i));
+               }
+               else if(org ) {
+                   personVector.push_back(inputVector.at(i));
+               }
+
+            }
+            else {
+                if(word) {
+                    notWordVector.push_back(inputVector.at(i));
+                }
+                else if (person) {
+                    personVector.push_back(inputVector.at(i));
+                }
+                else if(org ) {
+                    personVector.push_back(inputVector.at(i));
+                }
             }
         }
     }
