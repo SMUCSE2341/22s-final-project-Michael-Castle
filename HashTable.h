@@ -118,11 +118,7 @@ public:
                 it->second.push_back(ID);
             }
         }
-
-
     }
-
-
 
     ~HashTable() {
         delete[] table;
