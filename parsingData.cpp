@@ -269,7 +269,7 @@ string Directory::stemWord(string searchWord) {
 vector<string>
 Directory::searchAnd(vector<string> words, vector<string> persons, vector<string> orgs, vector<string> notWords,
                      vector<string> notPersons, vector<string> notOrgs) {
-
+//f86 c87 cf4 414
     vector<string> returnVector;
     vector<string> tmpVector;
     vectorHelper myHelp;

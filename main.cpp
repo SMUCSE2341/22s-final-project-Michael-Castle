@@ -80,23 +80,23 @@ int main(int argc, char* const args[]) {
                if(word) {
                    wordVector.push_back(inputVector.at(i));
                }
-               else if (person) {
+               else if (person){
                    personVector.push_back(inputVector.at(i));
                }
-               else if(org ) {
-                   personVector.push_back(inputVector.at(i));
+               else if(org ){
+                   orgVector.push_back(inputVector.at(i));
                }
 
             }
             else {
-                if(word) {
+                if(word){
                     notWordVector.push_back(inputVector.at(i));
                 }
-                else if (person) {
-                    personVector.push_back(inputVector.at(i));
+                else if (person){
+                    notPersonVector.push_back(inputVector.at(i));
                 }
                 else if(org ) {
-                    personVector.push_back(inputVector.at(i));
+                    notOrgVector.push_back(inputVector.at(i));
                 }
             }
         }
