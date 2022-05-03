@@ -97,7 +97,7 @@ int main(int argc, char* const args[]) {
             }
         }
     }
-    newDirec.searchOr(wordVector, personVector, orgVector, notWordVector, notPersonVector, notOrgVector);
+    vector<string> searchVector = newDirec.searchOr(wordVector, personVector, orgVector, notWordVector, notPersonVector, notOrgVector);
 
     //cout << "hello";
     // Create a hash table with 3 indices:

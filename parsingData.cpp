@@ -281,11 +281,11 @@ Directory::searchAnd(vector<string> words, vector<string> persons, vector<string
         tmpVector = SearchWord(tmpWord);
         returnVector = myHelp.combineAnd(&returnVector, &tmpVector);
     }
-    for(int i = 0; i < words.size(); i++) {
+    for(int i = 0; i < persons.size(); i++) {
         tmpVector = SearchPerson(persons.at(i));
         returnVector = myHelp.combineAnd(&returnVector, &tmpVector);
     }
-    for(int i = 0; i < words.size(); i++) {
+    for(int i = 0; i < orgs.size(); i++) {
         tmpVector = SearchOrg(orgs.at(i));
         returnVector = myHelp.combineAnd(&returnVector, &tmpVector);
     }
@@ -327,11 +327,11 @@ Directory::searchOr(vector<string> words, vector<string> persons, vector<string>
         tmpVector = SearchWord(tmpWord);
         returnVector = myHelp.combineOr(&returnVector, &tmpVector);
     }
-    for(int i = 0; i < words.size(); i++) {
+    for(int i = 0; i < persons.size(); i++) {
         tmpVector = SearchPerson(persons.at(i));
         returnVector = myHelp.combineOr(&returnVector, &tmpVector);
     }
-    for(int i = 0; i < words.size(); i++) {
+    for(int i = 0; i < orgs.size(); i++) {
         tmpVector = SearchOrg(orgs.at(i));
         returnVector = myHelp.combineOr(&returnVector, &tmpVector);
     }
